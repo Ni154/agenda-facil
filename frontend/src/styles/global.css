@@ -1,0 +1,26 @@
+.page { padding: 24px; }
+.page-header h1 { margin-bottom: 4px; }
+.page-header p { opacity: .7; }
+
+.grid { display: grid; gap: 16px; margin-bottom: 24px; }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
+}
+
+.card-info { background: #f3e8ff; }
+.card-success { background: #dcfce7; }
+.card-warning { background: #fff7ed; }
+
+.card-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.card-table th, .card-table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
