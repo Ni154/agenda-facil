@@ -1,21 +1,21 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# 🔗 IMPORTA TODAS AS ROTAS (AJUSTE NOMES SE NECESSÁRIO)
-from routes.cliente import router as cliente_router
-from routes.produto import router as produto_router
-from routes.servico import router as servico_router
-from routes.agendamento import router as agendamento_router
-from routes.venda import router as venda_router
-from routes.despesa import router as despesa_router
-from routes.relatorio import router as relatorio_router
+# IMPORTS CORRETOS PARA RENDER (CAMINHO ABSOLUTO)
+from backend.routes.cliente import router as cliente_router
+from backend.routes.produto import router as produto_router
+from backend.routes.servico import router as servico_router
+from backend.routes.agendamento import router as agendamento_router
+from backend.routes.venda import router as venda_router
+from backend.routes.despesa import router as despesa_router
+from backend.routes.relatorio import router as relatorio_router
 
 app = FastAPI(
     title="Agenda Fácil API",
     version="1.0.0"
 )
 
-# 🔐 CORS — FRONTEND NO NETLIFY
+# CORS — FRONTEND NO NETLIFY
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -26,16 +26,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 🚀 REGISTRO DAS ROTAS
-app.include_router(cliente_router)
-app.include_router(produto_router)
-app.include_router(servico_router)
-app.include_router(agendamento_router)
-app.include_router(venda_router)
-app.include_router(despesa_router)
-app.include_router(relatorio_router)
+# REGISTRO DAS ROTAS
+app.include_router(cliente_router, prefix="/api")
+app.include_router(produto_router, prefix="/api")
+app.include_router(servico_router, prefix="/api")
+app.include_router(agendamento_router, prefix="/api")
+app.include_router(venda_router, prefix="/api")
+app.include_router(despesa_router, prefix="/api")
+app.include_router(relatorio_router, prefix="/api")
 
-# 🩺 HEALTH CHECK
+# HEALTH CHECK
 @app.get("/")
-def health():
+def root():
     return {"status": "online"}
