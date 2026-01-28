@@ -1,34 +1,41 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routes.clientes import router as clientes_router
-from routes.produtos import router as produtos_router
-from routes.servicos import router as servicos_router
-from routes.agendamentos import router as agendamentos_router
-from routes.vendas import router as vendas_router
-from routes.despesas import router as despesas_router
-from routes.dashboard import router as dashboard_router
-from routes.relatorios import router as relatorios_router
-from routes.backup import router as backup_router
+# 🔗 IMPORTA TODAS AS ROTAS (AJUSTE NOMES SE NECESSÁRIO)
+from routes.cliente import router as cliente_router
+from routes.produto import router as produto_router
+from routes.servico import router as servico_router
+from routes.agendamento import router as agendamento_router
+from routes.venda import router as venda_router
+from routes.despesa import router as despesa_router
+from routes.relatorio import router as relatorio_router
 
-app = FastAPI(title="Agenda Fácil API")
+app = FastAPI(
+    title="Agenda Fácil API",
+    version="1.0.0"
+)
 
-# CORS (libera frontend React)
+# 🔐 CORS — FRONTEND NO NETLIFY
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://*.netlify.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Rotas
-app.include_router(clientes_router, prefix="/api/clientes", tags=["Clientes"])
-app.include_router(produtos_router, prefix="/api/produtos", tags=["Produtos"])
-app.include_router(servicos_router, prefix="/api/servicos", tags=["Serviços"])
-app.include_router(agendamentos_router, prefix="/api/agendamentos", tags=["Agendamentos"])
-app.include_router(vendas_router, prefix="/api/vendas", tags=["Vendas"])
-app.include_router(despesas_router, prefix="/api/despesas", tags=["Despesas"])
-app.include_router(dashboard_router, prefix="/api/dashboard", tags=["Dashboard"])
-app.include_router(relatorios_router, prefix="/api/relatorios", tags=["Relatórios"])
-app.include_router(backup_router, prefix="/api/backup", tags=["Backup"])
+# 🚀 REGISTRO DAS ROTAS
+app.include_router(cliente_router)
+app.include_router(produto_router)
+app.include_router(servico_router)
+app.include_router(agendamento_router)
+app.include_router(venda_router)
+app.include_router(despesa_router)
+app.include_router(relatorio_router)
+
+# 🩺 HEALTH CHECK
+@app.get("/")
+def health():
+    return {"status": "online"}
