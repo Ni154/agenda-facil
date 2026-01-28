@@ -1,21 +1,22 @@
-from pymongo import MongoClient
+import os
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-# URI do MongoDB (local)
-MONGO_URI = "mongodb://localhost:27017/"
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Nome do banco
-DB_NAME = "agenda_facil"
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL não definida no ambiente")
 
-# Cliente Mongo
-client = MongoClient(MONGO_URI)
+engine = create_engine(
+    DATABASE_URL,
+    pool_pre_ping=True,
+    connect_args={"sslmode": "require"}
+)
 
-# Banco de dados
-db = client[DB_NAME]
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
 
-# Coleções (centralizadas)
-clientes_collection = db["clientes"]
-produtos_collection = db["produtos"]
-servicos_collection = db["servicos"]
-agendamentos_collection = db["agendamentos"]
-vendas_collection = db["vendas"]
-despesas_collection = db["despesas"]
+Base = declarative_base()
